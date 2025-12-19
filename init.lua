@@ -17,6 +17,23 @@ vim.keymap.set('v', '<leader>P', '"+P')
 vim.keymap.set('n', '<leader><Tab>', '<C-w>w', { desc = 'Go to next split' })
 vim.keymap.set('n', '<leader><S-Tab>', '<C-w>W', { desc = 'Go to previous split' })
 
+-- netrw
+vim.keymap.set('n', '<leader>e', function()
+  vim.cmd 'Explore %:p:h'
+end, { desc = 'Explore current file directory' })
+
+-- Jumping
+vim.keymap.set('n', '<leader>h', '<C-o>', { desc = 'Jump back' })
+vim.keymap.set('n', '<leader>l', '<C-i>', { desc = 'Jump forward' })
+
+-- Moving text
+vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
+vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
+
+-- Buffer management
+vim.keymap.set('n', '<leader>bb', '<C-^>', { desc = 'Previous buffer' })
+vim.keymap.set('n', '<leader>bd', ':bd<CR>', { desc = 'Delete buffer' })
+
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = false
 
