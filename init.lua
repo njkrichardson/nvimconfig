@@ -38,7 +38,6 @@ vim.keymap.set('n', '<leader>bd', ':bd<CR>', { desc = 'Delete buffer' })
 vim.keymap.set('n', '<leader>\\', '<cmd>ToggleTerm direction=vertical<cr>', {
   desc = 'Toggle terminal (vertical)',
 })
-vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]], { desc = 'Exit terminal mode' })
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = false
@@ -163,6 +162,25 @@ rtp:prepend(lazypath)
 -- Plugins
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
+  {
+    'akinsho/bufferline.nvim',
+    version = '*',
+    dependencies = 'nvim-tree/nvim-web-devicons',
+
+    keys = {
+      { '<leader>[', '<cmd>BufferLineCyclePrev<CR>', desc = 'Previous buffer' },
+      { '<leader>]', '<cmd>BufferLineCycleNext<CR>', desc = 'Next buffer' },
+    },
+
+    config = function()
+      require('bufferline').setup {
+        options = {
+          mode = 'buffers',
+          always_show_bufferline = true,
+        },
+      }
+    end,
+  },
   'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
   'github/copilot.vim',
   {
@@ -454,11 +472,7 @@ require('lazy').setup({
           -- Jump to the implementation of the word under your cursor.
           --  Useful when your language has ways of declaring types without an actual implementation.
           map('gri', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
-
-          -- Jump to the definition of the word under your cursor.
-          --  This is where a variable was first declared, or where a function is defined, etc.
-          --  To jump back, press <C-t>.
-          map('grd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+          map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
 
           -- WARN: This is not Goto Definition, this is Goto Declaration.
           --  For example, in C this would take you to the header.
@@ -781,25 +795,20 @@ require('lazy').setup({
     },
   },
 
-  { -- You can easily change to a different colorscheme.
-    -- Change the name of the colorscheme plugin below, and then
-    -- change the command in the config to whatever the name of that colorscheme is.
-    --
-    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    'folke/tokyonight.nvim',
-    priority = 1000, -- Make sure to load this before all the other start plugins.
+  {
+    'ydkulks/cursor-dark.nvim',
+    lazy = false,
+    priority = 1000,
     config = function()
-      ---@diagnostic disable-next-line: missing-fields
-      require('tokyonight').setup {
-        styles = {
-          comments = { italic = false }, -- Disable italics in comments
-        },
+      -- vim.cmd.colorscheme("cursor-dark-midnight")
+      require('cursor-dark').setup {
+        -- For theme
+        style = 'dark-midnight',
+        -- For a transparent background
+        transparent = true,
+        -- If you have dashboard-nvim plugin installed
+        dashboard = true,
       }
-
-      -- Load the colorscheme here.
-      -- Like many other themes, this one has different styles, and you could load
-      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-night'
     end,
   },
 
